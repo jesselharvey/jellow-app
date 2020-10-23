@@ -2,9 +2,15 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { selectColumns, selectCards } from '../dashboard/dashboardSlice'
 import { Column } from '../components/Column'
+import { 
+AddListButton,
+ConfAddListButton,
+AddCardButton,
+ConfAddCardButton
+} from '../components/Buttons'
 
 
-export function Board() {
+export  function Board() {
 
   // const dispatch = useDispatch()
   const columns = useSelector(selectColumns)
@@ -27,6 +33,7 @@ export function Board() {
       //     ))}
       //   </div>
       ))} 
+      <AddListButton />
     </div>
   )
 }

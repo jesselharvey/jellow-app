@@ -10,7 +10,8 @@ export function NavBar() {
       <span>Jellow</span>
       <div className="navUI">
         <LogoutButton />
-        <img className="avatarThumb" src={users[2].img} />      </div>
+        <img className="avatarThumb" src={users[2].img} /> 
+      </div>
     </div>
   )
 }

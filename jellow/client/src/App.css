@@ -63,6 +63,9 @@
 }
 
 .addListButton {
+  width: 10%;
+  height: fit-content;
+  padding: 1% 2.5%;
 }
 
 .addCardButton {

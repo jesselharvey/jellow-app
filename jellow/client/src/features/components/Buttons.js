@@ -1,4 +1,6 @@
-import React from 'react'
+import React, { Component } from 'react'
+import { dispatch } from 'react-redux'
+import { addColumn, addCard } from '../dashboard/dashboardSlice'
 
 export function LoginButton() {
   return (
@@ -18,10 +20,23 @@ export function LogoutButton() {
   )
 }
 
-export function AddListButton() {
-  return (
-    <button className="addListButton">+ Add List</button>
-  )
+// export function AddListButton() {
+//   return (
+//     <button className="addListButton">+ Add List</button>
+//   )
+// }
+
+export class AddListButton extends React.Component {
+  handleClick(e) {
+    console.log('this is', this)
+  }
+  render() {
+    return (
+      <button onClick={(e) => this.handleClick(e)} className="addListButton">
+        + Add List
+      </button>
+    )
+  }
 }
 
 export function ConfAddListButton() {
