@@ -12,15 +12,19 @@ export function Column(props) {
     //   {columns.map((column) => (
       // column.id === project.id ? 
       <div className="column" key={props.id}>
-        <h4>{props.title}</h4><br />
-        {cards.map((card) => (
-            card.column_id === props.id ?
-            <Card id={card.id} content={card.content} />
-              // <div>
-              //   <span content={card.content}>{card.content}</span>
-              // </div> 
-            :""
-          ))}
+        <div>
+          <h4>{props.title}</h4><br />
+        </div>
+        <div className="innerColumn">
+          {cards.map((card) => (
+              card.column_id === props.id ?
+              <Card id={card.id} content={card.content} />
+                // <div>
+                //   <span content={card.content}>{card.content}</span>
+                // </div> 
+              :""
+            ))}
+        </div>
       </div>
       // :""
     //   ))}

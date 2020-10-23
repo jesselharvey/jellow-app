@@ -4,7 +4,26 @@
   width: 100%;
 }
 
+.innerColumn {
+  overflow-y: scroll;
+  height: 85%;
+  display: flex;
+  flex-flow: column;
+}
+
 .column {
+  border: 1px solid #000;
+  padding: 0 1%;
   margin: 0 1.5%;
   width: 15%;
+  height: 700px;
+  top: 0;
+  bottom: 0;
+  /* max-height: auto;  */
+}
+
+.card {
+  background: #eee;
+  margin: 2% 0;
+  padding: 2.5% 0;
 }

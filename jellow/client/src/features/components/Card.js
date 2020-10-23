@@ -7,15 +7,17 @@ export function Card(props) {
   const columns = useSelector(selectColumns)
 
   return (
-    <div key={props.id}>
-      {/* {cards.map((card) => (
-            // card.column_id === column.id ?
-            <div>
-              <span>{card.content}</span>
-            </div> 
-            // :""
-          ))} */}
-          <span>{props.content}</span>
+    <div className="card" key={props.id}>
+      <span>{props.id}</span><br />
+      <span>{props.content}</span>
     </div>
+      // {cards.map((card) => (
+      //       // card.column_id === column.id ?
+      //       <div>
+      //         <span>{card.content}</span>
+      //       </div> 
+      //       // :""
+      //     ))}
+
   )
 }
