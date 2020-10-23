@@ -4,7 +4,10 @@ import {BrowserRouter as Router,
   Route
 } from "react-router-dom";
 import { Login } from './features/login/Login'
-// import './App.css';
+import { Dashboard } from './features/dashboard/Dashboard'
+import { Board } from './features/components/Board'
+import { Test } from './features/test/Test'
+import './App.css';
 
 function App() {
   return (
@@ -12,6 +15,15 @@ function App() {
      <Switch>
        <Route exact path="/login">
         <Login />
+       </Route>
+       {/* <Route path='/dashboard'>
+         <Dashboard />
+       </Route> */}
+       <Route path="/board">
+         <Board />
+       </Route>
+       <Route path="/test">
+         <Test />
        </Route>
      </Switch>
    </Router>
