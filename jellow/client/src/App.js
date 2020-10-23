@@ -4,7 +4,9 @@ import {BrowserRouter as Router,
   Route
 } from "react-router-dom";
 import { Login } from './features/login/Login'
-// import './App.css';
+import { Dashboard } from './features/dashboard/Dashboard'
+import { Board } from './features/components/Board'
+import './App.css';
 
 function App() {
   return (
@@ -12,6 +14,12 @@ function App() {
      <Switch>
        <Route exact path="/login">
         <Login />
+       </Route>
+       {/* <Route path='/dashboard'>
+         <Dashboard />
+       </Route> */}
+       <Route path="/board">
+         <Board />
        </Route>
      </Switch>
    </Router>
