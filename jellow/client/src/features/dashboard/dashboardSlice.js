@@ -3,6 +3,10 @@ import { createSlice } from '@reduxjs/toolkit'
 export const dashboardSlice = createSlice({
   name: 'dashboard',
   initialState: {
+    users: [
+    {id: 1, name: 'guy1', img: "https://images.alexonsager.net/pokemon/fused/135/135.134.png"},
+    {id: 2, name: 'guy2', img: "https://images.alexonsager.net/pokemon/fused/79/79.93.png"},
+    {id: 3, name: 'girl1', img: "https://images.alexonsager.net/pokemon/fused/68/68.48.png"}],
     // boards: [{id: 1, name: 'trello1'}, {id: 2, name: 'trello2'}, {id: 3, name: 'trello3'}],
     columns: [{id: 1, title: 'backlog'}, {id: 2, title: 'todo'}, {id: 3, title: 'doing'}],
     cards: [
@@ -87,5 +91,6 @@ export const selectColumns = state => state.dashboard.columns;
 
 export const selectCards = state => state.dashboard.cards;
 
+export const selectUsers = state => state.dashboard.users;
 
 export default dashboardSlice.reducer

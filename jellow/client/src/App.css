@@ -27,3 +27,43 @@
   margin: 2% 0;
   padding: 2.5% 0;
 }
+
+.avatarThumb {
+  width: 50px;
+  border-radius: 50%;
+  border: 1px solid #000;
+}
+
+/* NAVBAR COMPONENTS */
+#navBar {
+  top: 0;
+  /* margin: 0 0 5%; */
+  position: fixed;
+  display: inline-flex;
+  width: 100%;
+  height: 50px;
+  justify-content: center;
+  align-items: center;
+  background: #459D98;
+}
+.navUI {
+  position: absolute;
+  right: 3%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 10%;
+}
+
+/* BUTTON COMPONENTS */
+#loginButton {
+}
+
+#LogoutButton {
+}
+
+.addListButton {
+}
+
+.addCardButton {
+}
