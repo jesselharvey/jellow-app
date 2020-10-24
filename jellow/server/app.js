@@ -16,37 +16,100 @@ const knex = require('knex')({
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 
-// const middlewareThings = jwtMiddleware({ secret: process.env.SECRET, algorithms: ['HS256'] })
+function attachUser(req, res, next) {
+  const authorizationHeader = req.headers.authorization
+  if (authorizationHeader) {
+    const token = authorizationHeader.split(' ')[1]
+    const decoded = jwtToken.decode(token)
+    req.user = { id: decoded.id, email: decoded.email }
+  }
+  next()
+}
+app.use(attachUser)
 
 //GET requests
 
 // display database after login is successful
 app.get('/api/jellow-app', async (req, res) => {
   // LEFT JOIN before CARDS and columns
-  const displaySql = `
+  const displayProjectSql = `
   SELECT * FROM projects
   INNER JOIN columns ON projects.id = columns.projects_id
   LEFT JOIN cards ON columns.id = cards.columns_id
   WHERE projects.id = 1;`
-  console.log(displaySql)
-  const jellowApp = await knex.raw(displaySql)
+  console.log(displayProjectSql)
+  const jellowApp = await knex.raw(displayProjectSql)
   res.json(jellowApp.rows)
 })
 
+// SELECT projects.title as project_title, columns.title as columns_title, cards.title as card_title
+
 //POST requests
 
+function createSalt(len = 20) {
+  const vals = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+  let str = ""
+  for (let i = 0; i < len; i++) {
+    const randomIndex = Math.floor(Math.random() * vals.length)
+    str += vals.charAt(randomIndex)
+  }
+  return str
+}
+
 // registration feeding users table on database
-app.post('/api/jellow-app', (req, res, next) => {
+app.post("/registration", async (req, res) => {
   const { email, password } = req.body
-  const salt = []
-  const registerationSql = `
-  INSERT INTO users (email, password, salt)
-  VALUES (?, ?, ?); `
-  const postReg = knex.raw(registerationSql, [email, password, salt])
-  res.json(postReg.body)
-  next()
+  const salt = createSalt(20)
+  const hashedPassword = sha512(password + salt)
+  const checkIfUserExistsSql = `SELECT * FROM users WHERE email = ?;`
+  const hasAUser = await conn.raw(checkIfUserExistsSql, [email])
+  const userExists = hasAUser.rows.length
+  if (userExists) {
+    res.status(400).json({ message: "email already exists" })
+  } else {
+    const addUserSql = `
+                INSERT INTO users (email, password, salt)
+                VALUES (?, ?, ?);
+            `
+    const insertedUser = await conn.raw(addUserSql, [
+      email,
+      hashedPassword,
+      salt,
+    ])
+    res.status(201).json({ message: "user successfully created" })
+  }
 })
-// missing salt
+
+// login page
+app.post("/login", async (req, res, next) => {
+  console.log("working", req.body)
+  try {
+    const { email, password } = req.body
+    const checkIfUserExistsSql = `SELECT * FROM users WHERE email = ?;`
+    const hasAUser = await conn.raw(checkIfUserExistsSql, [email])
+    const userExists = hasAUser.rows.length
+    if (!userExists) {
+      res.status(400).json({ message: "invalid email or password" })
+    } else {
+      const user = hasAUser.rows[0]
+      const hashedPassword = sha512(password + user.salt)
+      console.log(hashedPassword, sha512(user.password + user.salt))
+      if (hashedPassword === sha512(user.password + user.salt)) {
+        // generate a token based on server secret for client to use to authenticate
+        const token = jwt.sign(
+          { id: user.id, email: user.email },
+          process.env.SECRET
+        )
+        res.status(200).json({ token: token })
+      } else {
+        res.status(400).json({ message: "invalid email or password" })
+      }
+    }
+  } catch (error) {
+    console.log("Login error:", error)
+  }
+})
+
 
 // connect users_id and projects_id on projects_users table on database
 app.post('/api/jellow-app', (req, res, next) => {
@@ -99,14 +162,22 @@ app.post('/api/jellow-app', (req, res, next) => {
 app.post('/api/jellow-app', (req, res, next) => {
   const { cards_id } = req.body.cards.id
   const { users_id } = req.body.users.id
-  const postCardsUsers = `
+  const cardsUsersSql = `
   INSERT INTO cards_users (cards_id, users_id)
   VALUES (?, ?)`
-  const postCardsUsers = knex.raw(postCardsUsers, [cards_id, users_id])
+  const postCardsUsers = knex.raw(cardsUsersSql, [cards_id, users_id])
   res.json(postCardsUsers.rows)
 })
 
 //PATCH requests
+// update columns
+app.patch("/api/jellow-app/:id", async (req, res) => {
+  const { id } = req.params;
+  const { title } = req.body;
+  await knex.raw("UPDATE columns SET title = ? WHERE id = ?", [title, id]);
+  res.json("updated column");
+})
+
 // update cards columns_id when moved to another column by cards id
 app.patch('/api/jellow-app/:id', (req, res, next) => {
   const { columns_id } = req.body
@@ -119,10 +190,20 @@ app.patch('/api/jellow-app/:id', (req, res, next) => {
   res.json(patchMovingCard.rows)
 })
 
+//DELETE requests
+// delete columns by id
+app.delete("/api/jellow-app/:id", async (req, res) => {
+  const { id } = req.body;
+  await knex.raw("DELETE FROM columns WHERE id = ?", [id]);
+  res.json("deleted column");
+});
 
-// UPDATE Customers
-// SET ContactName = 'Alfred Schmidt', City= 'Frankfurt'
-// WHERE CustomerID = 1;
+//delete cards by id
+app.delete("/api/cards/:id", async (req, res) => {
+  const { id } = req.params;
+  await knex.raw("DELETE FROM cards WHERE id = ?", [id]);
+  res.json("deleted card");
+})
 
 
 app.listen(PORT, () => {
