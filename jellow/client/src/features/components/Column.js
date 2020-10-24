@@ -2,6 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { selectColumns, selectCards } from '../dashboard/dashboardSlice'
 import { Card } from './Card'
+import { DeleteListButton } from './Buttons'
 
 export function Column(props) {
   const columns = useSelector(selectColumns)
@@ -14,6 +15,7 @@ export function Column(props) {
       <div className="column" key={props.id}>
         <div>
           <h4>{props.title}</h4><br />
+          <DeleteListButton column={props.column} />
         </div>
         <div className="innerColumn">
           {cards.map((card) => (

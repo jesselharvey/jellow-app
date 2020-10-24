@@ -8,6 +8,7 @@ ConfAddListButton,
 AddCardButton,
 ConfAddCardButton
 } from '../components/Buttons'
+import { CardInput } from '../components/Inputs'
 
 
 export  function Board() {
@@ -21,7 +22,7 @@ export  function Board() {
     <div id="boardContainer">
       {/* <Column /> */}
        {columns.map((column) => (
-         <Column id={column.id} title={column.title}/>
+         <Column column={column} id={column.id} title={column.title}/>
       // <div className="column" key={column.id}>
       //     <h4>{column.title}</h4><br />
       //     {cards.map((card) => (
@@ -33,7 +34,7 @@ export  function Board() {
       //     ))}
       //   </div>
       ))} 
-      <AddListButton />
+      <CardInput />
     </div>
   )
 }

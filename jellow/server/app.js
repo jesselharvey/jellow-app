@@ -25,6 +25,10 @@ app.post('/', (req, res) => {
   res.json(req.body)
 })
 
+app.post('/api/board', (req, res) => {
+  res.json(req.body)
+})
+
 //PATCH requests
 app.patch('/', (req, res) => {
   res.json(req.body)
@@ -32,6 +36,12 @@ app.patch('/', (req, res) => {
 
 //DELETE requests
 app.delete('/', (req, res) => {
+  res.json(req.body)
+})
+
+app.delete('/api/board/:column', (req, res) => {
+  // console.log(req.params)
+  const { column } = req.params
   res.json(req.body)
 })
 

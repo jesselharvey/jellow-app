@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import axios from 'axios'
 
 export const dashboardSlice = createSlice({
   name: 'dashboard',
@@ -39,17 +40,24 @@ export const dashboardSlice = createSlice({
     //     return board.id !== action.payload.id
     //   })
     // },
-    addColumn: (state, action) => {
-      state.columns = state.columns.push(action.payload)
+    // fetchColumns: (state, action) => {
+
+    // },
+
+    addColumnFunc: (state, action) => {
+      state.columns.push(action.payload)
     },
-    removeColumn: (state, action) => {
+
+    removeColumnFunc: (state, action) => {
       state.columns = state.columns.filter(column => {
         return column.id !== action.payload.id
       })
     },
+
     addCard: (state, action) => {
-      state.cards = state.cards.push(action.payload)
+      state.cards.push(action.payload)
     },
+
     removeCard: (state, action) => {
       state.cards = state.cards.filter(card => {
         return card.id !== action.payload.id
@@ -60,7 +68,7 @@ export const dashboardSlice = createSlice({
 })
 
 
-export const { addColumn, removeColumn, addCard, removeCard } = dashboardSlice.actions
+export const { addColumnFunc, removeColumnFunc, addCard, removeCard } = dashboardSlice.actions
 
 // export const addBoardFunc = (board) => (dispatch) => {
 //   dispatch(addBoard(board))
@@ -70,12 +78,20 @@ export const { addColumn, removeColumn, addCard, removeCard } = dashboardSlice.a
 //   dispatch(removeBoard(board))
 // }
 
-export const addColumnFunc = (column) => (dispatch) => {
-  dispatch(addColumn(column))
+export const addColumn = (text) => (dispatch) => {
+  axios.post('/api/board', {id: 5, title: text}).then(res => {
+    console.log(res.data)
+    dispatch(addColumnFunc(res.data))
+
+  })
 }
 
-export const removeColumnFunc = (column) => (dispatch) => {
-  dispatch(removeColumn(column))
+export const removeColumn = (column) => (dispatch) => {
+  axios.delete('/api/board/' + column.id).then((resp) => {
+    console.log(resp)
+    dispatch(removeColumnFunc(column))
+
+  })
 }
 
 export const addCardFunc = (card) => (dispatch) => {
