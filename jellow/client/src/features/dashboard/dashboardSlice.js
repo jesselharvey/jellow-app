@@ -4,32 +4,34 @@ import axios from 'axios'
 export const dashboardSlice = createSlice({
   name: 'dashboard',
   initialState: {
-    users: [
-    {id: 1, name: 'guy1', img: "https://images.alexonsager.net/pokemon/fused/135/135.134.png"},
-    {id: 2, name: 'guy2', img: "https://images.alexonsager.net/pokemon/fused/79/79.93.png"},
-    {id: 3, name: 'girl1', img: "https://images.alexonsager.net/pokemon/fused/68/68.48.png"}],
+    users: [],
+    // [
+    // {id: 1, name: 'guy1', img: "https://images.alexonsager.net/pokemon/fused/135/135.134.png"},
+    // {id: 2, name: 'guy2', img: "https://images.alexonsager.net/pokemon/fused/79/79.93.png"},
+    // {id: 3, name: 'girl1', img: "https://images.alexonsager.net/pokemon/fused/68/68.48.png"}],
     // boards: [{id: 1, name: 'trello1'}, {id: 2, name: 'trello2'}, {id: 3, name: 'trello3'}],
-    columns: [{id: 1, title: 'backlog'}, {id: 2, title: 'todo'}, {id: 3, title: 'doing'}],
-    cards: [
-      {id: 1, content: 'card1', column_id: 1},
-      {id: 2, content: 'card2', column_id: 1},
-      {id: 3, content: 'ssdada', column_id: 1},
-      {id: 4, content: 'card21', column_id: 1},
-      {id: 11, content: 'card1', column_id: 1},
-      {id: 12, content: 'card2', column_id: 1},
-      {id: 13, content: 'ssdada', column_id: 1},
-      {id: 14, content: 'card21', column_id: 1},
-      {id: 5, content: 'card132', column_id: 1},
-      {id: 6, content: 'card113', column_id: 1},
-      {id: 7, content: 'card1sss', column_id: 1},
-      {id: 8, content: 'card1234', column_id: 1},
-      {id: 9, content: 'card144444', column_id: 1},
-      {id: 15, content: 'card132', column_id: 1},
-      {id: 16, content: 'card113', column_id: 1},
-      {id: 17, content: 'card1sss', column_id: 1},
-      {id: 18, content: 'card1234', column_id: 1},
-      {id: 19, content: 'card144444', column_id: 1}
-    ],
+    columns: [], //[{id: 1, title: 'backlog'}, {id: 2, title: 'todo'}, {id: 3, title: 'doing'}],
+    cards: [],
+    // [
+      // {id: 1, content: 'card1', column_id: 1},
+      // {id: 2, content: 'card2', column_id: 1},
+      // {id: 3, content: 'ssdada', column_id: 1},
+      // {id: 4, content: 'card21', column_id: 1},
+      // {id: 11, content: 'card1', column_id: 1},
+      // {id: 12, content: 'card2', column_id: 1},
+      // {id: 13, content: 'ssdada', column_id: 1},
+      // {id: 14, content: 'card21', column_id: 1},
+      // {id: 5, content: 'card132', column_id: 1},
+      // {id: 6, content: 'card113', column_id: 1},
+      // {id: 7, content: 'card1sss', column_id: 1},
+      // {id: 8, content: 'card1234', column_id: 1},
+      // {id: 9, content: 'card144444', column_id: 1},
+      // {id: 15, content: 'card132', column_id: 1},
+      // {id: 16, content: 'card113', column_id: 1},
+      // {id: 17, content: 'card1sss', column_id: 1},
+      // {id: 18, content: 'card1234', column_id: 1},
+      // {id: 19, content: 'card144444', column_id: 1}
+    // ],
   },
   reducers: {
     // addBoard: (state, action) => {
@@ -40,9 +42,9 @@ export const dashboardSlice = createSlice({
     //     return board.id !== action.payload.id
     //   })
     // },
-    // fetchColumns: (state, action) => {
-
-    // },
+    asyncFetchColumns: (state, action) => {
+      state.
+    },
 
     addColumnFunc: (state, action) => {
       state.columns.push(action.payload)

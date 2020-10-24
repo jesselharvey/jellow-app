@@ -21,7 +21,7 @@ app.use(express.json())
 //GET requests
 
 // display database after login is successful
-app.get('/api/jellow-app', async (req, res) => {
+app.get('/api/board', async (req, res) => {
   // LEFT JOIN before CARDS and columns
   const displaySql = `
   SELECT * FROM projects
@@ -48,15 +48,11 @@ app.post('/api/jellow-app', (req, res, next) => {
 })
 // missing salt
 
-<<<<<<< HEAD
 app.post('/api/board', (req, res) => {
   res.json(req.body)
 })
 
-//PATCH requests
-app.patch('/', (req, res) => {
-  res.json(req.body)
-=======
+
 // connect users_id and projects_id on projects_users table on database
 app.post('/api/jellow-app', (req, res, next) => {
   const { users_id } = req.body.users.id
@@ -67,7 +63,6 @@ app.post('/api/jellow-app', (req, res, next) => {
   const postProjectsUsers = knex.raw(projectsUsersSql, [users_id, projects_id])
   res.json(postProjectsUsers.rows)
   next()
->>>>>>> 5c993415a6fd57e861be967c847d75f248c0fb15
 })
 
 
@@ -93,14 +88,12 @@ app.post('/api/jellow-app', (req, res, next) => {
   next()
 })
 
-<<<<<<< HEAD
 app.delete('/api/board/:column', (req, res) => {
   // console.log(req.params)
   const { column } = req.params
   res.json(req.body)
 })
 
-=======
 
 // cards feeding cards table on database
 app.post('/api/jellow-app', (req, res, next) => {
@@ -117,10 +110,10 @@ app.post('/api/jellow-app', (req, res, next) => {
 app.post('/api/jellow-app', (req, res, next) => {
   const { cards_id } = req.body.cards.id
   const { users_id } = req.body.users.id
-  const postCardsUsers = `
+  const postCardsUsersSql = `
   INSERT INTO cards_users (cards_id, users_id)
   VALUES (?, ?)`
-  const postCardsUsers = knex.raw(postCardsUsers, [cards_id, users_id])
+  const postCardsUsers = knex.raw(postCardsUsersSql, [cards_id, users_id])
   res.json(postCardsUsers.rows)
 })
 
@@ -137,13 +130,15 @@ app.patch('/api/jellow-app/:id', (req, res, next) => {
   res.json(patchMovingCard.rows)
 })
 
+// app.patch('/', (req, res) => {
+//   res.json(req.body)
+// })
 
 // UPDATE Customers
 // SET ContactName = 'Alfred Schmidt', City= 'Frankfurt'
 // WHERE CustomerID = 1;
 
 
->>>>>>> 5c993415a6fd57e861be967c847d75f248c0fb15
 app.listen(PORT, () => {
   console.log('listening on port ' + PORT)
 })
