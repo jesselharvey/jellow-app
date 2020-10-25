@@ -65,7 +65,7 @@ export const dashboardSlice = createSlice({
       state.cards.push(action.payload)
     },
 
-    removeCard: (state, action) => {
+    removeCardFunc: (state, action) => {
       state.cards = state.cards.filter(card => {
         return card.id !== action.payload.id
       })
@@ -79,7 +79,7 @@ export const {
   addColumnFunc,
   removeColumnFunc, 
   addCardFunc, 
-  removeCard, 
+  removeCardFunc, 
   asyncFetchColumns,
   asyncFetchCards
   } = dashboardSlice.actions
@@ -123,15 +123,18 @@ export const addCard = (column_id, text) => (dispatch) => {
 
 // DELETE REQUESTS
 export const removeColumn = (column) => (dispatch) => {
-  axios.delete('/api/board/column/' + column.id).then((resp) => {
+  axios.delete('/api/column/' + column.id).then((resp) => {
     console.log(column)
     dispatch(removeColumnFunc(column))
 
   })
 }
 
-export const removeCardFunc = (card) => (dispatch) => {
-  dispatch(removeCard(card))
+export const removeCard = (card) => (dispatch) => {
+  axios.delete('/api/card/' + card.id).then((resp) => {
+    console.log(resp.data)
+    dispatch(removeCardFunc(card))
+  })
 }
 
 
