@@ -108,10 +108,10 @@ export const fetchCards = () => (dispatch) => {
 
 // POST REQUESTS
 export const addColumn = (text) => (dispatch) => {
-  axios.post('/api/board/columns', {title: text, projects_id: 1}).then(resp => {
+  axios.post('/api/board/column', {title: text, projects_id: 1}).then(resp => {
     console.log(resp)
     dispatch(addColumnFunc(resp.data))
-
+    // dispatch(asyncFetchColumns())
   })
 }
 
@@ -121,7 +121,7 @@ export const addCardFunc = (card) => (dispatch) => {
 
 // DELETE REQUESTS
 export const removeColumn = (column) => (dispatch) => {
-  axios.delete('/api/board/' + column.id).then((resp) => {
+  axios.delete('/api/board/column/' + column.id).then((resp) => {
     console.log(resp)
     dispatch(removeColumnFunc(column))
 

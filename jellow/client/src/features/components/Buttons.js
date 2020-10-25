@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { addColumn, removeColumn, addCard } from '../dashboard/dashboardSlice'
+import { addColumn, removeColumn, addCard, fetchColumns } from '../dashboard/dashboardSlice'
 // import { addColumn } from './features/dashboard/dashboardSlice'
 
 export function LoginButton() {
@@ -27,6 +27,7 @@ export function AddListButton(props) {
     e.preventDefault()
     console.log(props.columnTitle)
     dispatch(addColumn(props.columnTitle))
+    dispatch(fetchColumns())
     // console.log(e.target)
   }
 
@@ -42,7 +43,8 @@ export function DeleteListButton(props) {
   let handleClick = (e) => {
     e.preventDefault()
     dispatch(removeColumn(props.column))
-    console.log(props.column)
+    // console.log(props.column)
+    dispatch(fetchColumns())
   }
   return (
     <button onClick={(e) => handleClick(e)} className="deleteListButton">
@@ -72,7 +74,13 @@ export function DeleteListButton(props) {
 
 export function AddCardButton() {
   return (
-    <button className="addCardButton">Add button</button>
+    <button className="addCardButton">Add Card</button>
+  )
+}
+
+export function DeleteCardButton() {
+  return (
+    <button className="deleteCardButton">Delete Card</button>
   )
 }
 

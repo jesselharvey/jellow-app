@@ -1,13 +1,16 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { AddListButton } from './Buttons'
-// import { addColumn } from '../dashboard/dashboardSlice'
+import { fetchColumns } from '../dashboard/dashboardSlice'
 
 
-export function CardInput() {
+export function ColumnInput() {
+  const dispatch = useDispatch()
   const [text, setText] = useState('')
 
   function handleAddColumn(e) {
     e.preventDefault()
+    dispatch(fetchColumns())
     // console.log(text)
     setText("")
   }

@@ -27,7 +27,7 @@ export function Column(props) {
         <div className="innerColumn">
           {cards.map((card) => (
               card.columns_id === props.id ?
-              <Card id={card.id} title={card.title} description={card.description} />
+              <Card column={props.column} id={card.id} title={card.title} description={card.description} />
                 // <div>
                 //   <span content={card.content}>{card.content}</span>
                 // </div> 

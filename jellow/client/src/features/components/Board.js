@@ -8,7 +8,7 @@ import { Column } from '../components/Column'
 // AddCardButton,
 // ConfAddCardButton
 // } from '../components/Buttons'
-import { CardInput } from '../components/Inputs'
+import { ColumnInput } from '../components/Inputs'
 
 
 export  function Board() {
@@ -39,7 +39,7 @@ export  function Board() {
       //     ))}
       //   </div>
       ))} 
-      <CardInput />
+      <ColumnInput />
     </div>
   )
 }

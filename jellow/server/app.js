@@ -159,14 +159,15 @@ app.post('/api/jellow-app', (req, res, next) => {
 })
 
 // columns feeding columns table on database
-app.post('/api/board/columns', (req, res, next) => {
+app.post('/api/board/column', async (req, res, next) => {
   const { title, projects_id } = req.body
   console.log(title)
   console.log(projects_id)
   const columnsSql = `
   INSERT INTO columns (title, projects_id)
   VALUES (?, ?);`
-  const postColumns = knex.raw(columnsSql, [title, projects_id])
+  const postColumns = await knex.raw(columnsSql, [title, projects_id])
+  console.log(postColumns)
   res.json(postColumns.rows)
   next()
 })
@@ -223,10 +224,11 @@ app.patch('/api/jellow-app/:id', (req, res, next) => {
 
 //DELETE requests
 // delete columns by id
-app.delete("/api/jellow-app/:id", async (req, res) => {
-  const { id } = req.body;
-  await knex.raw("DELETE FROM columns WHERE id = ?", [id]);
-  res.json("deleted column");
+app.delete("/api/board/column/:id", async (req, res) => {
+  const { id } = req.params
+  
+  const deleteColumns = await knex.raw("DELETE FROM columns WHERE id = ?", [id]);
+  res.json(deleteColumns.rows);
 });
 
 //delete cards by id
