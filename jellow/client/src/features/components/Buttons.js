@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { useDispatch } from 'react-redux'
 import { addColumn, removeColumn, addCard } from '../dashboard/dashboardSlice'
 // import { addColumn } from './features/dashboard/dashboardSlice'
@@ -27,7 +27,7 @@ export function AddListButton(props) {
     e.preventDefault()
     console.log(props.columnTitle)
     dispatch(addColumn(props.columnTitle))
-    console.log(e.target)
+    // console.log(e.target)
   }
 
   return (

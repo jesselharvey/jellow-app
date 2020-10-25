@@ -30,16 +30,34 @@ app.use(attachUser)
 //GET requests
 
 // display database after login is successful
-app.get('/api/board', async (req, res) => {
-  // LEFT JOIN before CARDS and columns
-  const displayProjectSql = `
-  SELECT * FROM projects
-  INNER JOIN columns ON projects.id = columns.projects_id
-  LEFT JOIN cards ON columns.id = cards.columns_id
-  WHERE projects.id = 1;`
-  console.log(displayProjectSql)
-  const jellowApp = await knex.raw(displayProjectSql)
-  res.json(jellowApp.rows)
+// app.get('/api/board', async (req, res) => {
+//   // LEFT JOIN before CARDS and columns
+//   const displayProjectSql = `
+//   SELECT * FROM projects
+//   INNER JOIN columns ON projects.id = columns.projects_id
+//   LEFT JOIN cards ON columns.id = cards.columns_id
+//   WHERE projects.id = 1;`
+//   console.log(displayProjectSql)
+//   const jellowApp = await knex.raw(displayProjectSql)
+//   res.json(jellowApp.rows)
+// })
+
+// fetches columns
+app.get('/api/board/columns', async (req, res) => {
+  const getColumnsSql = `
+  SELECT * FROM columns
+  WHERE projects_id = 1;`
+  const columns = await knex.raw(getColumnsSql)
+  console.log(columns.rows)
+  res.json(columns.rows)
+})
+
+// fetches cards
+app.get('/api/board/cards', async (req, res) => {
+  const getCardsSql = `
+  SELECT * FROM cards`
+  const cards = await knex.raw(getCardsSql)
+  res.json(cards.rows)
 })
 
 // SELECT projects.title as project_title, columns.title as columns_title, cards.title as card_title
@@ -141,11 +159,13 @@ app.post('/api/jellow-app', (req, res, next) => {
 })
 
 // columns feeding columns table on database
-app.post('/api/jellow-app', (req, res, next) => {
+app.post('/api/board/columns', (req, res, next) => {
   const { title, projects_id } = req.body
+  console.log(title)
+  console.log(projects_id)
   const columnsSql = `
   INSERT INTO columns (title, projects_id)
-  VALUES (?, ?)`
+  VALUES (?, ?);`
   const postColumns = knex.raw(columnsSql, [title, projects_id])
   res.json(postColumns.rows)
   next()
@@ -173,17 +193,10 @@ app.post('/api/jellow-app', (req, res, next) => {
 app.post('/api/jellow-app', (req, res, next) => {
   const { cards_id } = req.body.cards.id
   const { users_id } = req.body.users.id
-<<<<<<< HEAD
-  const postCardsUsersSql = `
-  INSERT INTO cards_users (cards_id, users_id)
-  VALUES (?, ?)`
-  const postCardsUsers = knex.raw(postCardsUsersSql, [cards_id, users_id])
-=======
   const cardsUsersSql = `
   INSERT INTO cards_users (cards_id, users_id)
   VALUES (?, ?)`
   const postCardsUsers = knex.raw(cardsUsersSql, [cards_id, users_id])
->>>>>>> 70c5638c3bab7921383f5cb021fa75d544200239
   res.json(postCardsUsers.rows)
 })
 
@@ -208,15 +221,6 @@ app.patch('/api/jellow-app/:id', (req, res, next) => {
   res.json(patchMovingCard.rows)
 })
 
-<<<<<<< HEAD
-// app.patch('/', (req, res) => {
-//   res.json(req.body)
-// })
-
-// UPDATE Customers
-// SET ContactName = 'Alfred Schmidt', City= 'Frankfurt'
-// WHERE CustomerID = 1;
-=======
 //DELETE requests
 // delete columns by id
 app.delete("/api/jellow-app/:id", async (req, res) => {
@@ -231,7 +235,6 @@ app.delete("/api/cards/:id", async (req, res) => {
   await knex.raw("DELETE FROM cards WHERE id = ?", [id]);
   res.json("deleted card");
 })
->>>>>>> 70c5638c3bab7921383f5cb021fa75d544200239
 
 
 app.listen(PORT, () => {

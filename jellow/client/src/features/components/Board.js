@@ -1,23 +1,28 @@
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
-import { selectColumns, selectCards } from '../dashboard/dashboardSlice'
+import { useSelector, useDispatch } from 'react-redux'
+import { selectColumns, selectCards, fetchColumns } from '../dashboard/dashboardSlice'
 import { Column } from '../components/Column'
-import { 
-AddListButton,
-ConfAddListButton,
-AddCardButton,
-ConfAddCardButton
-} from '../components/Buttons'
+// import { 
+// AddListButton,
+// ConfAddListButton,
+// AddCardButton,
+// ConfAddCardButton
+// } from '../components/Buttons'
 import { CardInput } from '../components/Inputs'
 
 
 export  function Board() {
+  const columns = useSelector(selectColumns)
+
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(fetchColumns())
+  }, [dispatch])
 
   // const dispatch = useDispatch()
-  const columns = useSelector(selectColumns)
   const cards = useSelector(selectCards)
-  console.log(columns)
-  console.log(cards)
+  // console.log(cards)
+  // console.log(columns)
   return (
     <div id="boardContainer">
       {/* <Column /> */}

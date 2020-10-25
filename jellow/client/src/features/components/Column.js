@@ -1,12 +1,19 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
-import { selectColumns, selectCards } from '../dashboard/dashboardSlice'
+import React, { useEffect } from 'react'
+import { useSelector, useDispatch} from 'react-redux'
+import { selectColumns, selectCards, fetchCards } from '../dashboard/dashboardSlice'
 import { Card } from './Card'
 import { DeleteListButton } from './Buttons'
 
 export function Column(props) {
   const columns = useSelector(selectColumns)
   const cards = useSelector(selectCards)
+
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(fetchCards())
+  }, [dispatch])
+
+  // console.log(cards)
 
   return (
     // <div id="columnContainer">
@@ -19,8 +26,8 @@ export function Column(props) {
         </div>
         <div className="innerColumn">
           {cards.map((card) => (
-              card.column_id === props.id ?
-              <Card id={card.id} content={card.content} />
+              card.columns_id === props.id ?
+              <Card id={card.id} title={card.title} description={card.description} />
                 // <div>
                 //   <span content={card.content}>{card.content}</span>
                 // </div> 

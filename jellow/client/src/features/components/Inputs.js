@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { AddListButton } from './Buttons'
-import { addColumn } from '../dashboard/dashboardSlice'
+// import { addColumn } from '../dashboard/dashboardSlice'
 
 
 export function CardInput() {

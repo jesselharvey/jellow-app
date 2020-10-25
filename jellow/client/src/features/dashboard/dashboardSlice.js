@@ -43,7 +43,11 @@ export const dashboardSlice = createSlice({
     //   })
     // },
     asyncFetchColumns: (state, action) => {
-      state.
+      state.columns = action.payload
+    },
+
+    asyncFetchCards: (state, action) => {
+      state.cards = action.payload
     },
 
     addColumnFunc: (state, action) => {
@@ -70,7 +74,14 @@ export const dashboardSlice = createSlice({
 })
 
 
-export const { addColumnFunc, removeColumnFunc, addCard, removeCard } = dashboardSlice.actions
+export const { 
+  addColumnFunc,
+  removeColumnFunc, 
+  addCard, 
+  removeCard, 
+  asyncFetchColumns,
+  asyncFetchCards
+  } = dashboardSlice.actions
 
 // export const addBoardFunc = (board) => (dispatch) => {
 //   dispatch(addBoard(board))
@@ -80,24 +91,41 @@ export const { addColumnFunc, removeColumnFunc, addCard, removeCard } = dashboar
 //   dispatch(removeBoard(board))
 // }
 
-export const addColumn = (text) => (dispatch) => {
-  axios.post('/api/board', {id: 5, title: text}).then(res => {
-    console.log(res.data)
-    dispatch(addColumnFunc(res.data))
-
+// GET REQUESTS
+export const fetchColumns = () => (dispatch) => {
+  axios.get('/api/board/columns').then((resp) => {
+    // console.log(resp.data)
+    dispatch(asyncFetchColumns(resp.data))
   })
 }
 
-export const removeColumn = (column) => (dispatch) => {
-  axios.delete('/api/board/' + column.id).then((resp) => {
+export const fetchCards = () => (dispatch) => {
+  axios.get('/api/board/cards').then((resp) => {
+    // console.log(resp.data)
+    dispatch(asyncFetchCards(resp.data))
+  })
+}
+
+// POST REQUESTS
+export const addColumn = (text) => (dispatch) => {
+  axios.post('/api/board/columns', {title: text, projects_id: 1}).then(resp => {
     console.log(resp)
-    dispatch(removeColumnFunc(column))
+    dispatch(addColumnFunc(resp.data))
 
   })
 }
 
 export const addCardFunc = (card) => (dispatch) => {
   dispatch(addCard(card))
+}
+
+// DELETE REQUESTS
+export const removeColumn = (column) => (dispatch) => {
+  axios.delete('/api/board/' + column.id).then((resp) => {
+    console.log(resp)
+    dispatch(removeColumnFunc(column))
+
+  })
 }
 
 export const removeCardFunc = (card) => (dispatch) => {
