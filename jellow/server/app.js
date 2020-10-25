@@ -172,20 +172,20 @@ app.post('/api/board/column', async (req, res, next) => {
   next()
 })
 
-app.delete('/api/board/:column', (req, res) => {
-  // console.log(req.params)
-  const { column } = req.params
-  res.json(req.body)
-})
+// app.delete('/api/board/:column', (req, res) => {
+//   // console.log(req.params)
+//   const { column } = req.params
+//   res.json(req.body)
+// })
 
 
 // cards feeding cards table on database
-app.post('/api/jellow-app', (req, res, next) => {
+app.post('/api/board/card', async (req, res, next) => {
   const { title, description, columns_id } = req.body
   const cardsSql = `
   INSERT INTO cards (title, description, columns_id)
   VALUES (?, ?, ?); `
-  const postCards = knex.raw(cardsSql, [title, description, columns_id])
+  const postCards = await knex.raw(cardsSql, [title, description, columns_id])
   res.json(postCards.rows)
   next()
 })
@@ -226,9 +226,15 @@ app.patch('/api/jellow-app/:id', (req, res, next) => {
 // delete columns by id
 app.delete("/api/board/column/:id", async (req, res) => {
   const { id } = req.params
-  
-  const deleteColumns = await knex.raw("DELETE FROM columns WHERE id = ?", [id]);
-  res.json(deleteColumns.rows);
+  // console.log(id)
+  const deleteAllFromColumnSql = `
+  DELETE FROM cards WHERE columns_id = ${id};`
+  const deleteColumnsSql = `
+  DELETE FROM columns WHERE id = ${id};`
+  const deleteAllFromColumn = await knex.raw(deleteAllFromColumnSql)
+  const deleteColumns = await knex.raw(deleteColumnsSql)
+  res.json(deleteAllFromColumn.rows)
+  res.json(deleteColumns.rows)
 });
 
 //delete cards by id

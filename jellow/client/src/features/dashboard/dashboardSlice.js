@@ -4,11 +4,12 @@ import axios from 'axios'
 export const dashboardSlice = createSlice({
   name: 'dashboard',
   initialState: {
-    users: [],
-    // [
-    // {id: 1, name: 'guy1', img: "https://images.alexonsager.net/pokemon/fused/135/135.134.png"},
-    // {id: 2, name: 'guy2', img: "https://images.alexonsager.net/pokemon/fused/79/79.93.png"},
-    // {id: 3, name: 'girl1', img: "https://images.alexonsager.net/pokemon/fused/68/68.48.png"}],
+    users: 
+    // [],
+    [
+    {id: 1, name: 'guy1', img: "https://images.alexonsager.net/pokemon/fused/135/135.134.png"},
+    {id: 2, name: 'guy2', img: "https://images.alexonsager.net/pokemon/fused/79/79.93.png"},
+    {id: 3, name: 'girl1', img: "https://images.alexonsager.net/pokemon/fused/68/68.48.png"}],
     // boards: [{id: 1, name: 'trello1'}, {id: 2, name: 'trello2'}, {id: 3, name: 'trello3'}],
     columns: [], //[{id: 1, title: 'backlog'}, {id: 2, title: 'todo'}, {id: 3, title: 'doing'}],
     cards: [],
@@ -60,7 +61,7 @@ export const dashboardSlice = createSlice({
       })
     },
 
-    addCard: (state, action) => {
+    addCardFunc: (state, action) => {
       state.cards.push(action.payload)
     },
 
@@ -77,7 +78,7 @@ export const dashboardSlice = createSlice({
 export const { 
   addColumnFunc,
   removeColumnFunc, 
-  addCard, 
+  addCardFunc, 
   removeCard, 
   asyncFetchColumns,
   asyncFetchCards
@@ -115,14 +116,15 @@ export const addColumn = (text) => (dispatch) => {
   })
 }
 
-export const addCardFunc = (card) => (dispatch) => {
-  dispatch(addCard(card))
+export const addCard = (column_id, text) => (dispatch) => {
+  axios.post('/api/board/card', {title: text, description: '', columns_id: column_id})
+  dispatch(addCardFunc(column_id, text))
 }
 
 // DELETE REQUESTS
 export const removeColumn = (column) => (dispatch) => {
   axios.delete('/api/board/column/' + column.id).then((resp) => {
-    console.log(resp)
+    console.log(column)
     dispatch(removeColumnFunc(column))
 
   })

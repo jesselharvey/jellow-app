@@ -1,6 +1,6 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
-import { selectCards, selectColumns } from '../dashboard/dashboardSlice'
+// import { useSelector } from 'react-redux'
+// import { selectCards, selectColumns } from '../dashboard/dashboardSlice'
 
 export function Card(props) {
   // const cards = useSelector(selectCards)

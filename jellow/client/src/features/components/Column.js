@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch} from 'react-redux'
-import { selectColumns, selectCards, fetchCards } from '../dashboard/dashboardSlice'
+import { selectCards, fetchCards } from '../dashboard/dashboardSlice'
 import { Card } from './Card'
 import { DeleteListButton } from './Buttons'
+import { CardInput } from './Inputs'
 
 export function Column(props) {
-  const columns = useSelector(selectColumns)
+  // const columns = useSelector(selectColumns)
   const cards = useSelector(selectCards)
 
   const dispatch = useDispatch()
@@ -33,6 +34,7 @@ export function Column(props) {
                 // </div> 
               :""
             ))}
+        <CardInput column_id={props.id}/>
         </div>
       </div>
       // :""
