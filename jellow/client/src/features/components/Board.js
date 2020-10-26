@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { selectColumns, selectCards, fetchColumns } from '../dashboard/dashboardSlice'
 import { Column } from '../components/Column'
+import { NavBar } from '../components/Nav'
 // import { 
 // AddListButton,
 // ConfAddListButton,
@@ -24,22 +25,25 @@ export  function Board() {
   // console.log(cards)
   // console.log(columns)
   return (
-    <div id="boardContainer">
-      {/* <Column /> */}
-       {columns.map((column) => (
-         <Column column={column} id={column.id} title={column.title}/>
-      // <div className="column" key={column.id}>
-      //     <h4>{column.title}</h4><br />
-      //     {cards.map((card) => (
-      //       card.column_id === column.id ?
-      //       <div>
-      //         <span>{card.content}</span>
-      //       </div> :
-      //       ""
-      //     ))}
-      //   </div>
-      ))} 
-      <ColumnInput />
+    <div>
+      <NavBar />
+      <div id="boardContainer">
+        {/* <Column /> */}
+        {columns.map((column) => (
+          <Column column={column} id={column.id} title={column.title}/>
+        // <div className="column" key={column.id}>
+        //     <h4>{column.title}</h4><br />
+        //     {cards.map((card) => (
+        //       card.column_id === column.id ?
+        //       <div>
+        //         <span>{card.content}</span>
+        //       </div> :
+        //       ""
+        //     ))}
+        //   </div>
+        ))} 
+        <ColumnInput />
+      </div>
     </div>
   )
 }

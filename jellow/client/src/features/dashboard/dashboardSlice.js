@@ -132,7 +132,7 @@ export const removeColumn = (column) => (dispatch) => {
 
 export const removeCard = (card) => (dispatch) => {
   axios.delete('/api/card/' + card.id).then((resp) => {
-    console.log(resp.data)
+    console.log(card)
     dispatch(removeCardFunc(card))
   })
 }
