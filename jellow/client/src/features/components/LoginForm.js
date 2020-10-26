@@ -1,5 +1,6 @@
 import React from 'react'
 import { LoginFail } from './LoginFail'
+import { LoginButton, RegisterButton } from './Buttons'
 
 
 export function LoginForm() {
@@ -17,6 +18,8 @@ export function LoginForm() {
           <input type="text" name="username"></input>
         <label htmlFor="password">Password</label>
           <input type="password" name="password"></input>
+          <LoginButton />
+          <RegisterButton />
       </form>
     </div>
   )

@@ -30,16 +30,34 @@ app.use(attachUser)
 //GET requests
 
 // display database after login is successful
-app.get('/api/jellow-app', async (req, res) => {
-  // LEFT JOIN before CARDS and columns
-  const displayProjectSql = `
-  SELECT * FROM projects
-  INNER JOIN columns ON projects.id = columns.projects_id
-  LEFT JOIN cards ON columns.id = cards.columns_id
-  WHERE projects.id = 1;`
-  console.log(displayProjectSql)
-  const jellowApp = await knex.raw(displayProjectSql)
-  res.json(jellowApp.rows)
+// app.get('/api/board', async (req, res) => {
+//   // LEFT JOIN before CARDS and columns
+//   const displayProjectSql = `
+//   SELECT * FROM projects
+//   INNER JOIN columns ON projects.id = columns.projects_id
+//   LEFT JOIN cards ON columns.id = cards.columns_id
+//   WHERE projects.id = 1;`
+//   console.log(displayProjectSql)
+//   const jellowApp = await knex.raw(displayProjectSql)
+//   res.json(jellowApp.rows)
+// })
+
+// fetches columns
+app.get('/api/board/columns', async (req, res) => {
+  const getColumnsSql = `
+  SELECT * FROM columns
+  WHERE projects_id = 1;`
+  const columns = await knex.raw(getColumnsSql)
+  console.log(columns.rows)
+  res.json(columns.rows)
+})
+
+// fetches cards
+app.get('/api/board/cards', async (req, res) => {
+  const getCardsSql = `
+  SELECT * FROM cards`
+  const cards = await knex.raw(getCardsSql)
+  res.json(cards.rows)
 })
 
 // SELECT projects.title as project_title, columns.title as columns_title, cards.title as card_title
@@ -111,6 +129,11 @@ app.post("/login", async (req, res, next) => {
 })
 
 
+app.post('/api/board', (req, res) => {
+  res.json(req.body)
+})
+
+
 // connect users_id and projects_id on projects_users table on database
 app.post('/api/jellow-app', (req, res, next) => {
   const { users_id } = req.body.users.id
@@ -136,24 +159,33 @@ app.post('/api/jellow-app', (req, res, next) => {
 })
 
 // columns feeding columns table on database
-app.post('/api/jellow-app', (req, res, next) => {
+app.post('/api/board/column', async (req, res, next) => {
   const { title, projects_id } = req.body
+  console.log(title)
+  console.log(projects_id)
   const columnsSql = `
   INSERT INTO columns (title, projects_id)
-  VALUES (?, ?)`
-  const postColumns = knex.raw(columnsSql, [title, projects_id])
+  VALUES (?, ?);`
+  const postColumns = await knex.raw(columnsSql, [title, projects_id])
+  // console.log(postColumns)
   res.json(postColumns.rows)
   next()
 })
 
+// app.delete('/api/board/:column', (req, res) => {
+//   // console.log(req.params)
+//   const { column } = req.params
+//   res.json(req.body)
+// })
+
 
 // cards feeding cards table on database
-app.post('/api/jellow-app', (req, res, next) => {
+app.post('/api/board/card', async (req, res, next) => {
   const { title, description, columns_id } = req.body
   const cardsSql = `
   INSERT INTO cards (title, description, columns_id)
   VALUES (?, ?, ?); `
-  const postCards = knex.raw(cardsSql, [title, description, columns_id])
+  const postCards = await knex.raw(cardsSql, [title, description, columns_id])
   res.json(postCards.rows)
   next()
 })
@@ -192,17 +224,27 @@ app.patch('/api/jellow-app/:id', (req, res, next) => {
 
 //DELETE requests
 // delete columns by id
-app.delete("/api/jellow-app/:id", async (req, res) => {
-  const { id } = req.body;
-  await knex.raw("DELETE FROM columns WHERE id = ?", [id]);
-  res.json("deleted column");
+app.delete("/api/column/:id", async (req, res) => {
+  const { id } = req.params
+  // console.log(id)
+  const deleteAllFromColumnSql = `
+  DELETE FROM cards WHERE columns_id = ${id};`
+  const deleteColumnsSql = `
+  DELETE FROM columns WHERE id = ${id};`
+  const deleteAllFromColumn = await knex.raw(deleteAllFromColumnSql)
+  const deleteColumns = await knex.raw(deleteColumnsSql)
+  res.json(deleteAllFromColumn.rows)
+  res.json(deleteColumns.rows)
 });
 
 //delete cards by id
-app.delete("/api/cards/:id", async (req, res) => {
+app.delete("/api/card/:id", async (req, res) => {
   const { id } = req.params;
-  await knex.raw("DELETE FROM cards WHERE id = ?", [id]);
-  res.json("deleted card");
+  const deleteCardSql = `
+  DELETE FROM cards WHERE id = ${id};
+  `
+  const deleteCard = await knex.raw(deleteCardSql);
+  res.json(deleteCard.rows);
 })
 
 

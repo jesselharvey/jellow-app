@@ -2,6 +2,8 @@
   display: inline-flex;
   flex-flow: row nowrap;
   width: 100%;
+  overflow-x: scroll;
+  margin: 5% 0 0;
 }
 
 .innerColumn {
@@ -44,7 +46,7 @@
   height: 50px;
   justify-content: center;
   align-items: center;
-  background: #459D98;
+  background: #459d98;
 }
 .navUI {
   position: absolute;
@@ -63,7 +65,16 @@
 }
 
 .addListButton {
+  /* width: 10%; */
+  height: fit-content;
+  padding: 1% 2.5%;
 }
 
 .addCardButton {
+}
+
+/* INPUT COMPONENTS */
+.inputForm {
+  display: flex;
+  flex-flow: column;
 }

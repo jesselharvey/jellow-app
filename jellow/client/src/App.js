@@ -4,9 +4,9 @@ import {BrowserRouter as Router,
   Route
 } from "react-router-dom";
 import { Login } from './features/login/Login'
-import { Dashboard } from './features/dashboard/Dashboard'
+// import { Dashboard } from './features/dashboard/Dashboard'
 import { Board } from './features/components/Board'
-import { Test } from './features/test/Test'
+// import { Test } from './features/test/Test'
 import './App.css';
 
 function App() {
@@ -22,9 +22,9 @@ function App() {
        <Route path="/board">
          <Board />
        </Route>
-       <Route path="/test">
+       {/* <Route path="/test">
          <Test />
-       </Route>
+       </Route> */}
      </Switch>
    </Router>
   )
